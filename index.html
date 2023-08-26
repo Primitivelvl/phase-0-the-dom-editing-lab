@@ -1,1 +1,53 @@
-<!-- Write your code here! -->
+const { JSDOM } = require("jsdom");
+const { expect } = require("chai");
+
+// Load the HTML content into a JSDOM environment
+const htmlContent = `
+<html>
+  <head></head>
+  <body>
+    <h1>Hello World</h1>
+    <p>
+      <strong>Strong Text</strong>
+      <em>Emphasized Text</em>
+      <a href="https://developer.mozilla.org/en-US/docs/Web/HTML">MDN HTML</a>
+    </p>
+    <table></table>
+  </body>
+</html>
+`;
+const dom = new JSDOM(htmlContent);
+const { document } = dom.window;
+
+// Your tests
+describe("within index.html", () => {
+  it("contains a <body> tag", () => {
+    expect(document.querySelector("html").innerHTML).to.include("<body>");
+  });
+  it("contains a </body> tag", () => {
+    expect(document.querySelector("html").innerHTML).to.include("</body>");
+  });
+  it("contains an <h1> tag", () => {
+    expect(document.querySelector("body").innerHTML).to.include("<h1>");
+  });
+  it("contains a <p> tag", () => {
+    expect(document.querySelector("body").innerHTML).to.include("<p>");
+  });
+  it("within the <p>, it contains a <strong> tag", () => {
+    expect(document.querySelector("p").innerHTML).to.include("<strong>");
+  });
+  it("within the <p>, it contains an <em> tag", () => {
+    expect(document.querySelector("p").innerHTML).to.include("<em>");
+  });
+  it("within the <p>, it contains an <a> tag", () => {
+    expect(document.querySelector("p").innerHTML).to.include(
+      '<a href="https://developer.mozilla.org/en-US/docs/Web/HTML">'
+    );
+  });
+  it("within the <body>, it contains a <table> tag", () => {
+    expect(document.querySelector("body").innerHTML).to.include("<table>");
+  });
+});
+
+// Run the tests
+mocha.run();
